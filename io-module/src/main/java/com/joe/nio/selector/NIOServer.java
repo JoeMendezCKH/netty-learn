@@ -24,6 +24,8 @@ public class NIOServer {
         // serverSocketChannel register into selector and setting events
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
+        System.out.println("register selectionKey num="+selector.keys().size());
+
         // hold on client
         while (true) {
             // no event happened
@@ -44,6 +46,10 @@ public class NIOServer {
                     socketChannel.configureBlocking(false);
                     System.out.println("client connect success ...  " + socketChannel.hashCode());
                     socketChannel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+
+                    System.out.println("register selectionKey num="+selector.keys().size());
+
+
                 } else if (selectionKey.isReadable()) {
                     SocketChannel channel = (SocketChannel) selectionKey.channel();
                     // 获取该 channel 关联的 buffer(在连接时设置的)

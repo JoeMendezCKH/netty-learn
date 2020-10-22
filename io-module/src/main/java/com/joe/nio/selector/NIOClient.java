@@ -26,7 +26,6 @@ public class NIOClient {
 
         socketChannel.write(buffer);
 
-        socketChannel.close();
         System.in.read();
     }
 }
