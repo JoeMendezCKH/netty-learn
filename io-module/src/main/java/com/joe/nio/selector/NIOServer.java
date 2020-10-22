@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class NIOServer {
     public static void main(String[] args) throws IOException {
-        // EPollSelectorImpl
+        // Linux: EPollSelectorImpl, Win10: WindowsSelectorImpl
         Selector selector = Selector.open();
 
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
