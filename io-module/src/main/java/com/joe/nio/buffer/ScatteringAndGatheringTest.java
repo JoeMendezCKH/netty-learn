@@ -1,4 +1,4 @@
-package com.joe.nio;
+package com.joe.nio.buffer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
