@@ -26,6 +26,7 @@ public class BIOServer {
         while (true) {
             // listener, hold on client connect
             // accept() : The method blocks until a connection is made.
+            System.out.println(" connection blocking ");
             final Socket socket = serverSocket.accept();
             System.out.println("connect a client...");
             threadPool.execute(() -> handler(socket));
@@ -44,11 +45,12 @@ public class BIOServer {
             InputStream inputStream = socket.getInputStream();
 
             // read() : This method blocks until input data is available, end of file is detected, or an exception is thrown.
-            int read = inputStream.read(bytes);
-            while (read != -1) {
+            int read;
+            System.out.println("read blocking");
+            while ((read = inputStream.read(bytes)) != -1) {
                 System.out.print("thread id: " + Thread.currentThread().getId() + " \t" + Thread.currentThread().getName() + " : ");
                 System.out.println(new String(bytes, 0, read));
-                read = inputStream.read(bytes);
+                System.out.println("read blocking");
             }
 
         } catch (IOException e) {
