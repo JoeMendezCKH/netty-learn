@@ -1,4 +1,4 @@
-package com.joe.nio.zerocopy;
+package com.joe.nio.demo.zerocopy;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ public class OldIOClient {
     public static void main(String[] args) throws Exception {
         Socket socket = new Socket("localhost", 7001);
 
-        String fileName = "io-module/src/main/resources/protoc-3.6.1-win32.zip";
+        String fileName = "io-module/src/main/resources/visualvm_204.zip";
         InputStream inputStream = new FileInputStream(fileName);
 
         DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());

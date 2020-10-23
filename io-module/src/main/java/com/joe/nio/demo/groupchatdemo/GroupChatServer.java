@@ -1,4 +1,4 @@
-package com.joe.nio.groupchatdemo;
+package com.joe.nio.demo.groupchatdemo;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -39,6 +39,7 @@ public class GroupChatServer {
                     Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
                     while (keyIterator.hasNext()) {
                         SelectionKey key = keyIterator.next();
+
                         if (key.isAcceptable()) {
                             SocketChannel channel = listenChannel.accept();
                             channel.configureBlocking(false);

@@ -1,4 +1,4 @@
-package com.joe.nio.zerocopy;
+package com.joe.nio.demo.zerocopy;
 
 import javafx.beans.binding.When;
 

@@ -1,4 +1,4 @@
-package com.joe.nio.zerocopy;
+package com.joe.nio.demo.zerocopy;
 
 import java.io.DataInputStream;
 import java.net.ServerSocket;
