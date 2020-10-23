@@ -32,28 +32,25 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         // 如果这有一个耗时的业务, 会阻塞客户端, 不好
 //        TimeUnit.SECONDS.sleep(5);
 //        ctx.writeAndFlush(Unpooled.copiedBuffer("hello client, wait long time..", CharsetUtil.UTF_8));
-
         // 需要异步执行 -> 提交到该channel 对应的 NioEventLoop 的 TaskQueue 中
-        // solve 1 : 自定义普通任务
-        ctx.channel().eventLoop().execute(() -> {
-            try {
-                TimeUnit.SECONDS.sleep(3);
-                ctx.writeAndFlush(Unpooled.copiedBuffer("hello client, wait long time.. method1, 11111111 \t ", CharsetUtil.UTF_8));
-            } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
-            }
-        });
-        // 会在上面任务执行结束后再计时 6s
-        ctx.channel().eventLoop().execute(() -> {
-            try {
-                TimeUnit.SECONDS.sleep(6);
-                ctx.writeAndFlush(Unpooled.copiedBuffer("hello client, wait long time.. method1, 22222222 \t ", CharsetUtil.UTF_8));
-            } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
-            }
-        });
+
+        // solve 1 : 自定义普通任务, 提交到该channel 对应的 NioEventLoop 的 TaskQueue 中
+        solve1(ctx);
+        // solve 2 : 自定义定时任务, 该任务提交到 scheduleTaskQueue 队列
+        solve2(ctx);
+        // solve 3 : 非当前 Reactor 线程调用 Channel 的各种方法, 见 NettyServer 52 行
 
         System.out.println("go on to complete");
+    }
+
+    private void solve2(ChannelHandlerContext ctx) {
+        ctx.channel().eventLoop().schedule(() -> {
+            ctx.writeAndFlush(Unpooled.copiedBuffer("hello client, wait long time.. method2, 11111111 \t ", CharsetUtil.UTF_8));
+        }, 9, TimeUnit.SECONDS);
+        // 和上面的任务同时开始计时
+        ctx.channel().eventLoop().schedule(() -> {
+            ctx.writeAndFlush(Unpooled.copiedBuffer("hello client, wait long time.. method2, 22222222 \t ", CharsetUtil.UTF_8));
+        }, 9, TimeUnit.SECONDS);
     }
 
     /**
@@ -86,5 +83,25 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = msg;
         System.out.println("client send msg = " + byteBuf.toString(CharsetUtil.UTF_8));
         System.out.println("client address = " + channel.remoteAddress());
+    }
+
+    private void solve1(ChannelHandlerContext ctx) {
+        ctx.channel().eventLoop().execute(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(3);
+                ctx.writeAndFlush(Unpooled.copiedBuffer("hello client, wait long time.. method1, 11111111 \t ", CharsetUtil.UTF_8));
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        });
+        // 会在上面任务执行结束后再计时 6s
+        ctx.channel().eventLoop().execute(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(6);
+                ctx.writeAndFlush(Unpooled.copiedBuffer("hello client, wait long time.. method1, 22222222 \t ", CharsetUtil.UTF_8));
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        });
     }
 }
