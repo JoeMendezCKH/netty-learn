@@ -23,7 +23,8 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
         if (msg instanceof HttpRequest) {
 
-            System.out.println("pipeline hash = " + ctx.pipeline().hashCode() + " TestHttpServerHandler hash = " + this.hashCode());
+            System.out.println("pipeline hash = " + ctx.pipeline().hashCode() +
+                    " TestHttpServerHandler hash = " + this.hashCode());
 
             System.out.println("msg = " + msg.getClass());
             System.out.println("address = " + ctx.channel().remoteAddress());
@@ -40,7 +41,9 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
             ByteBuf content = Unpooled.copiedBuffer("hello, this is server 你好 ", CharsetUtil.UTF_8);
 
             // construct a http response
-            FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
+            FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
+                    HttpResponseStatus.OK, content);
+
             response.headers()
                     .set(HttpHeaderNames.CONTENT_TYPE, "text/plain;charset=utf-8")
                     .set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
