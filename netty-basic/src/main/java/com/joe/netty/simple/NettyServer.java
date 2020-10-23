@@ -62,6 +62,25 @@ public class NettyServer {
             // bind port and synchronized, start server
             ChannelFuture channelFuture = bootstrap.bind(PORT).sync();
 
+            // 给 channelFuture 注册监听器, 监控事件
+            channelFuture.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    if (channelFuture.isSuccess()){
+                        System.out.println("listen 6668 success...");
+                    } else {
+                        System.out.println("listen 6668 failed...");
+                    }
+                }
+            });
+
+            /*
+                Future 说明
+                1. 表示异步的执行结果, 可以通过它提供的方法来检测执行是否完成,比如检索计算等
+                2. ChannelFuture 是一个接口, 我们可以添加监听器,当监听的事件发生时,就会通知到监听器.
+
+             */
+
             // listen closed channel
             channelFuture.channel().closeFuture().sync();
         } finally {
