@@ -1,4 +1,4 @@
-package com.joe.netty.demo.http;
+package com.joe.netty.httpdemo;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

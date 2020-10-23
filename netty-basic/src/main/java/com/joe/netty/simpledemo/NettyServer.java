@@ -1,4 +1,4 @@
-package com.joe.netty.simple;
+package com.joe.netty.simpledemo;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;

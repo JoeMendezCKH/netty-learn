@@ -1,4 +1,4 @@
-package com.joe.netty.demo.http;
+package com.joe.netty.httpdemo;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
