@@ -19,7 +19,8 @@ public class NettyServer {
         // 1. bossGroup just solve accept request
         // 2. business logic processing is completed by WorkerGroup
         // 3. both they are loop
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        // 4. bossGroup and workerGroup have sub threads(NioEventLoop) default number is (cpu core * 2)
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
