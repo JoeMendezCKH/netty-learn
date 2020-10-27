@@ -1,6 +1,5 @@
 package com.joe.netty.protobuf.codec2;
 
-import com.joe.netty.protobuf.codec1.StudentPojo;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

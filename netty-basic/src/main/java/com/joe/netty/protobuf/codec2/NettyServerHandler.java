@@ -1,9 +1,7 @@
 package com.joe.netty.protobuf.codec2;
 
-import com.joe.netty.protobuf.codec1.StudentPojo;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
